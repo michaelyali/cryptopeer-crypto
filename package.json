@@ -1,0 +1,22 @@
+{
+  "name": "cryptopeer-crypto",
+  "version": "0.1.0",
+  "description": "Crypto module for CryptoPeer",
+  "main": "index.js",
+  "private": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Yali <yali.mykhailo@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://zMotivat0r@bitbucket.org/zMotivat0r/cryptopeer-crypto.git"
+  },
+  "readme": "README.md",
+  "license": "MIT",
+  "dependencies": {
+    "libsodium": "^0.4.8",
+    "node-rsa": "^0.4.2"
+  },
+  "devDependencies": {}
+}
