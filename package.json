@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "author": "Michael Yali <yali.mykhailo@gmail.com>",
   "repository": {
@@ -15,8 +15,11 @@
   "readme": "README.md",
   "license": "MIT",
   "dependencies": {
-    "libsodium": "^0.4.8",
-    "node-rsa": "^0.4.2"
+    "node-rsa": "^0.4.2",
+    "sodium": "^1.2.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  }
 }
