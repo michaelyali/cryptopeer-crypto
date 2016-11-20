@@ -12,44 +12,27 @@ $ npm install cryptopeer-crypto
 
 ## Usage
 
-### ECDH
-
-#### With new `privateKey` and `publicKey`
+### ECDH with new keys
 
 ```js
 const crypto = require('cryptopeer-crypto');
+```
 
-let alice = new crypto.ECDH();
-let bob = new crypto.ECDH();
+```js
+let alice = new crypto.ECDH(),
+    bob = new crypto.ECDH();
 
-let aliceShared = alice.computeSecret(bob.publicKey, 'base64');
-let bobShared = bob.computeSecret(alice.publicKey, 'base64');
-
-console.log(aliceShared.toString('base64') === bobShared.toString('base64'));
-
-aliceShared = alice.computeSecret(bob.publicKeyBuffer);
-bobShared = bob.computeSecret(alice.publicKeyBuffer);
-
-console.log(aliceShared.toString('base64') === bobShared.toString('base64'));
-
-aliceShared = alice.computeSecret(bob.publicKeyBuffer, 'base64');
-bobShared = bob.computeSecret(alice.publicKeyBuffer, 'base64');
+let aliceShared = alice.computeSecret(bob.publicKeyBuffer, 'base64'),
+    bobShared = bob.computeSecret(alice.publicKeyBuffer, 'base64');
 
 console.log(aliceShared === bobShared);
 ```
 
-#### From existing `privateKey`
+### ECDH from existing `privateKey`
 
 ```js
-const crypto = require('cryptopeer-crypto');
-
-let alice = new crypto.ECDH();
-
-let mallory = crypto.ECDH.fromPrivateKey(alice.privateKey, 'base64');
-
-console.log(alice.publicKey === mallory.publicKey);
-
-mallory = crypto.ECDH.fromPrivateKey(alice.privateKeyBuffer);
+let alice = new crypto.ECDH(),
+    mallory = crypto.ECDH.fromPrivateKey(alice.privateKey, 'base64');
 
 console.log(alice.publicKey === mallory.publicKey);
 ```

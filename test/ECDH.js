@@ -19,17 +19,15 @@ describe('ECDH', () => {
 
   describe('new ECDH', () => {
     
-    let ecdhWithKeys = null,
-        ecdhWithoutKeys = null;
+    let ecdhWithKeys = new ECDH(),
+        ecdhWithoutKeys = new ECDH(true);
     
     it('should create with keys', () => {
-      ecdhWithKeys = new ECDH();
       expect(ecdhWithKeys).to.be.ok;
       expect(ecdhWithKeys).to.be.an.instanceof(ECDH);
     });
 
     it('should create without keys', () => {
-      ecdhWithoutKeys = new ECDH(true);
       expect(ecdhWithoutKeys).to.be.ok;
       expect(ecdhWithoutKeys).to.be.an.instanceof(ECDH);
     });
@@ -82,6 +80,13 @@ describe('ECDH', () => {
       expect(ecdhWithKeys.computeSecret).to.be.a('function');
       expect(ecdhWithoutKeys.computeSecret).to.be.a('function');
     });
+
+    it('should have publicKeyTo', () => {
+      expect(ecdhWithKeys).to.have.property('publicKeyTo');
+      expect(ecdhWithoutKeys).to.have.property('publicKeyTo');
+      expect(ecdhWithKeys.computeSecret).to.be.a('function');
+      expect(ecdhWithoutKeys.computeSecret).to.be.a('function');
+    });
     
     describe('computeSecret', () => {
 
@@ -125,6 +130,55 @@ describe('ECDH', () => {
         expect(alice.computeSecret.bind(alice, 'invalidBuffer')).to.throw(Error);
         expect(alice.computeSecret.bind(alice, bob.publicKey, 'invalidEncoding')).to.throw(Error);
         expect(alice.computeSecret.bind(alice, bob.publicKey, 'base64', 'invalidEncoding')).to.throw(Error);
+      });
+    });
+    describe('publicKeyTo', () => {
+
+      let ecdhWithKeys = new ECDH(),
+          ecdhWithoutKeys = new ECDH(true);
+
+      it('should return null if publicKey is null', () => {
+        let tuBeNull = ecdhWithoutKeys.publicKeyTo();
+        expect(tuBeNull).to.be.null;
+      });
+
+      it('should return encoded string', () => {
+        let str = ecdhWithKeys.publicKeyTo();
+        let str2 = ecdhWithKeys.publicKeyTo('base64');
+        let str3 = ecdhWithKeys.publicKeyTo('hex');
+
+        expect(str).to.be.a('string');
+        expect(str2).to.be.a('string');
+        expect(str3).to.be.a('string');
+      });
+
+      it('should not pass with invalid params', () => {
+        expect(ecdhWithKeys.publicKeyTo.bind(ecdhWithKeys, 'invalidEncoding')).to.throw(Error);
+      });
+    });
+
+    describe('privateKeyTo', () => {
+
+      let ecdhWithKeys = new ECDH(),
+          ecdhWithoutKeys = new ECDH(true);
+
+      it('should return null if privateKey is null', () => {
+        let tuBeNull = ecdhWithoutKeys.privateKeyTo();
+        expect(tuBeNull).to.be.null;
+      });
+
+      it('should return encoded string', () => {
+        let str = ecdhWithKeys.privateKeyTo();
+        let str2 = ecdhWithKeys.privateKeyTo('base64');
+        let str3 = ecdhWithKeys.privateKeyTo('hex');
+
+        expect(str).to.be.a('string');
+        expect(str2).to.be.a('string');
+        expect(str3).to.be.a('string');
+      });
+
+      it('should not pass with invalid params', () => {
+        expect(ecdhWithKeys.privateKeyTo.bind(ecdhWithKeys, 'invalidEncoding')).to.throw(Error);
       });
     });
   });
