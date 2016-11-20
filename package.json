@@ -1,6 +1,6 @@
 {
   "name": "cryptopeer-crypto",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Crypto module for CryptoPeer",
   "main": "index.js",
   "private": false,
@@ -22,7 +22,6 @@
     "type": "git",
     "url": "https://github.com/zMotivat0r/cryptopeer-crypto.git"
   },
-  "readme": "README.MD",
   "license": "MIT",
   "dependencies": {
     "node-rsa": "^0.4.2",
