@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/zMotivat0r/cryptopeer-crypto.svg?branch=develop)](https://travis-ci.org/zMotivat0r/cryptopeer-crypto)
+
 ## Introduction
 
 CryptoPeer-Crypto is a crypto library for Node.js built on top of [sodium](https://github.com/paixaop/node-sodium) and [node-rsa](https://github.com/rzcoder/node-rsa)
