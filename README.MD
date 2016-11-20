@@ -4,7 +4,7 @@ CryptoPeer-Crypto is a crypto library for Node.js built on top of [sodium](https
 
 ## Install
 
-```bash
+```sh
 $ npm install cryptopeer-crypto
 ```
 
@@ -57,6 +57,12 @@ console.log(alice.publicKey === mallory.publicKey);
 - AES256 encrypt/decrypt
 - ChaCha20 encrypt/decrypt
 - RSA encrypt/decrypt
+
+## Test
+
+```sh
+npm test
+```
 
 ## Thanks
 
