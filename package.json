@@ -15,11 +15,12 @@
     "libsodium",
     "ECDH",
     "AES256",
-    "ChaCha20"
+    "ChaCha20",
+    "RSA"
   ],
   "repository": {
     "type": "git",
-    "url": "https://zMotivat0r@bitbucket.org/zMotivat0r/cryptopeer-crypto.git"
+    "url": "https://github.com/zMotivat0r/cryptopeer-crypto.git"
   },
   "readme": "README.md",
   "license": "MIT",
