@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/zMotivat0r/cryptopeer-crypto.svg?branch=develop)](https://travis-ci.org/zMotivat0r/cryptopeer-crypto)
+[![Build Status](https://travis-ci.org/zMotivat0r/cryptopeer-crypto.svg?branch=master)](https://travis-ci.org/zMotivat0r/cryptopeer-crypto)
 
 ## Introduction
 
