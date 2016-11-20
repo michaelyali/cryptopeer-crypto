@@ -8,6 +8,15 @@
     "test": "mocha test"
   },
   "author": "Michael Yali <yali.mykhailo@gmail.com>",
+  "keywords": [
+    "crypto",
+    "cryptography",
+    "sodium",
+    "libsodium",
+    "ECDH",
+    "AES256",
+    "ChaCha20"
+  ],
   "repository": {
     "type": "git",
     "url": "https://zMotivat0r@bitbucket.org/zMotivat0r/cryptopeer-crypto.git"
