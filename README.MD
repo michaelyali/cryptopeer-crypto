@@ -2,7 +2,7 @@
 
 ## Introduction
 
-CryptoPeer-Crypto is a crypto library for Node.js built on top of [sodium](https://github.com/paixaop/node-sodium) and [node-rsa](https://github.com/rzcoder/node-rsa)
+**cryptopeer-crypto** is an ECMA2015 (ES6) crypto library for Node.js built on top of [sodium](https://github.com/paixaop/node-sodium) and [node-rsa](https://github.com/rzcoder/node-rsa)
 
 ## Install
 
