@@ -12,15 +12,15 @@ $ npm install cryptopeer-crypto
 
 ## Usage
 
-### ECDH with new keys
+### Ecdh with new keys
 
 ```js
 const crypto = require('cryptopeer-crypto');
 ```
 
 ```js
-let alice = new crypto.ECDH(),
-    bob = new crypto.ECDH();
+let alice = new crypto.Ecdh(),
+    bob = new crypto.Ecdh();
 
 let aliceShared = alice.computeSecret(bob.publicKeyBuffer, 'base64'),
     bobShared = bob.computeSecret(alice.publicKeyBuffer, 'base64');
@@ -28,11 +28,11 @@ let aliceShared = alice.computeSecret(bob.publicKeyBuffer, 'base64'),
 console.log(aliceShared === bobShared);
 ```
 
-### ECDH from existing `privateKey`
+### Ecdh from existing `privateKey`
 
 ```js
-let alice = new crypto.ECDH(),
-    mallory = crypto.ECDH.fromPrivateKey(alice.privateKey, 'base64');
+let alice = new crypto.Ecdh(),
+    mallory = crypto.Ecdh.fromPrivateKey(alice.privateKey, 'base64');
 
 console.log(alice.publicKey === mallory.publicKey);
 ```

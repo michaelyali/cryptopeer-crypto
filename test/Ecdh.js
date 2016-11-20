@@ -4,32 +4,32 @@ const chai = require('chai'),
       expect = chai.expect;
 
 const lib = require('../lib'),
-      ECDH = lib.ECDH;
+      Ecdh = lib.Ecdh;
 
-describe('ECDH', () => {
+describe('Ecdh', () => {
 
   let privateKeyBase64 = 'd05yp7dX+X9FW9KkiunJ+qSp8/RDrFpiQ02EasZre9E=',
       privateKeyBuffer = new Buffer(privateKeyBase64, 'base64');
 
   it('should exist', () => {
     expect(lib).to.exist;
-    expect(ECDH).to.exist;
-    expect(ECDH).to.be.a('function');
+    expect(Ecdh).to.exist;
+    expect(Ecdh).to.be.a('function');
   });
 
-  describe('new ECDH', () => {
+  describe('new Ecdh', () => {
     
-    let ecdhWithKeys = new ECDH(),
-        ecdhWithoutKeys = new ECDH(true);
+    let ecdhWithKeys = new Ecdh(),
+        ecdhWithoutKeys = new Ecdh(true);
     
     it('should create with keys', () => {
       expect(ecdhWithKeys).to.be.ok;
-      expect(ecdhWithKeys).to.be.an.instanceof(ECDH);
+      expect(ecdhWithKeys).to.be.an.instanceof(Ecdh);
     });
 
     it('should create without keys', () => {
       expect(ecdhWithoutKeys).to.be.ok;
-      expect(ecdhWithoutKeys).to.be.an.instanceof(ECDH);
+      expect(ecdhWithoutKeys).to.be.an.instanceof(Ecdh);
     });
     
     it('should have _privateKey', () => {
@@ -90,8 +90,8 @@ describe('ECDH', () => {
     
     describe('computeSecret', () => {
 
-      let alice = new ECDH(),
-          bob = new ECDH(),
+      let alice = new Ecdh(),
+          bob = new Ecdh(),
           aliceShared = null,
           bobShared = null;
 
@@ -101,7 +101,7 @@ describe('ECDH', () => {
         expect(tuBeNull).to.be.null;
       });
 
-      it('should compute equal ECDH secrets buffers', () => {
+      it('should compute equal Ecdh secrets buffers', () => {
         aliceShared = alice.computeSecret(bob.publicKeyBuffer);
         bobShared = bob.computeSecret(alice.publicKeyBuffer);
         expect(aliceShared).to.be.an.instanceof(Buffer);
@@ -109,7 +109,7 @@ describe('ECDH', () => {
         expect(aliceShared.toString('base64')).to.equal(bobShared.toString('base64'));
       });
 
-      it('should compute equal ECDH secrets base64, 1/2', () =>{
+      it('should compute equal Ecdh secrets base64, 1/2', () =>{
 
         aliceShared = alice.computeSecret(bob.publicKey, 'base64');
         bobShared = bob.computeSecret(alice.publicKey, 'base64');
@@ -118,7 +118,7 @@ describe('ECDH', () => {
         expect(aliceShared.toString('base64')).to.equal(bobShared.toString('base64'));
       });
       
-      it('should compute equal ECDH secrets base64, 2/2', () => {
+      it('should compute equal Ecdh secrets base64, 2/2', () => {
         aliceShared = alice.computeSecret(bob.publicKey, 'base64', 'base64');
         bobShared = bob.computeSecret(alice.publicKey, 'base64', 'base64');
         expect(aliceShared).to.be.a('string');
@@ -134,8 +134,8 @@ describe('ECDH', () => {
     });
     describe('publicKeyTo', () => {
 
-      let ecdhWithKeys = new ECDH(),
-          ecdhWithoutKeys = new ECDH(true);
+      let ecdhWithKeys = new Ecdh(),
+          ecdhWithoutKeys = new Ecdh(true);
 
       it('should return null if publicKey is null', () => {
         let tuBeNull = ecdhWithoutKeys.publicKeyTo();
@@ -159,8 +159,8 @@ describe('ECDH', () => {
 
     describe('privateKeyTo', () => {
 
-      let ecdhWithKeys = new ECDH(),
-          ecdhWithoutKeys = new ECDH(true);
+      let ecdhWithKeys = new Ecdh(),
+          ecdhWithoutKeys = new Ecdh(true);
 
       it('should return null if privateKey is null', () => {
         let tuBeNull = ecdhWithoutKeys.privateKeyTo();
@@ -186,29 +186,29 @@ describe('ECDH', () => {
   describe('fromPrivateKey', () => {
     
     it('should exist', () => {
-      expect(ECDH.fromPrivateKey).to.be.ok;
-      expect(ECDH.fromPrivateKey).to.be.a('function');
+      expect(Ecdh.fromPrivateKey).to.be.ok;
+      expect(Ecdh.fromPrivateKey).to.be.a('function');
     });
     
-    it('should create new ECDH from privateKey base64', () => {
-      let ecdh = ECDH.fromPrivateKey(privateKeyBase64);
+    it('should create new Ecdh from privateKey base64', () => {
+      let ecdh = Ecdh.fromPrivateKey(privateKeyBase64);
       expect(ecdh).to.be.ok;
-      expect(ecdh).to.be.an.instanceof(ECDH);
+      expect(ecdh).to.be.an.instanceof(Ecdh);
 
-      let ecdh2 = ECDH.fromPrivateKey(privateKeyBase64, 'base64');
+      let ecdh2 = Ecdh.fromPrivateKey(privateKeyBase64, 'base64');
       expect(ecdh2).to.be.ok;
-      expect(ecdh2).to.be.an.instanceof(ECDH);
+      expect(ecdh2).to.be.an.instanceof(Ecdh);
     });
     
-    it('should create new ECDH from privateKey Buffer', () => {
-      let ecdh = ECDH.fromPrivateKey(privateKeyBuffer);
+    it('should create new Ecdh from privateKey Buffer', () => {
+      let ecdh = Ecdh.fromPrivateKey(privateKeyBuffer);
       expect(ecdh).to.be.ok;
-      expect(ecdh).to.be.an.instanceof(ECDH);
+      expect(ecdh).to.be.an.instanceof(Ecdh);
     });
     
     it('should not pass with invalid params', () => {
-      expect(ECDH.fromPrivateKey.bind(ECDH, 'invalidKey')).to.throw(Error);
-      expect(ECDH.fromPrivateKey.bind(ECDH, privateKeyBase64, 'invalidEncoding')).to.throw(Error);
+      expect(Ecdh.fromPrivateKey.bind(Ecdh, 'invalidKey')).to.throw(Error);
+      expect(Ecdh.fromPrivateKey.bind(Ecdh, privateKeyBase64, 'invalidEncoding')).to.throw(Error);
     });
   });
 });
