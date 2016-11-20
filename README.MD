@@ -12,9 +12,9 @@ $ npm install cryptopeer-crypto
 
 ## Usage
 
-#### ECDH
+### ECDH
 
-##### With new `privateKey` and `publicKey`
+#### With new `privateKey` and `publicKey`
 
 ```js
 const crypto = require('cryptopeer-crypto');
@@ -38,7 +38,7 @@ bobShared = bob.computeSecret(alice.publicKeyBuffer, 'base64');
 console.log(aliceShared === bobShared);
 ```
 
-##### From existing `privateKey`
+#### From existing `privateKey`
 
 ```js
 const crypto = require('cryptopeer-crypto');
