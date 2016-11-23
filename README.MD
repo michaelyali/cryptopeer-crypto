@@ -58,7 +58,6 @@ Method **encrypt** expects `String`, `Number`, `Object`, `Array`, `null` or can 
 
 - AES256 encrypt/decrypt
 - ChaCha20 encrypt/decrypt
-- RSA encrypt/decrypt
 
 ## Test
 
