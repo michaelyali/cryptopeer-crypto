@@ -84,8 +84,15 @@ describe('Ecdh', () => {
     it('should have publicKeyTo', () => {
       expect(ecdhWithKeys).to.have.property('publicKeyTo');
       expect(ecdhWithoutKeys).to.have.property('publicKeyTo');
-      expect(ecdhWithKeys.computeSecret).to.be.a('function');
-      expect(ecdhWithoutKeys.computeSecret).to.be.a('function');
+      expect(ecdhWithKeys.publicKeyTo).to.be.a('function');
+      expect(ecdhWithoutKeys.publicKeyTo).to.be.a('function');
+    });
+
+    it('should have privateKeyTo', () => {
+      expect(ecdhWithKeys).to.have.property('privateKeyTo');
+      expect(ecdhWithoutKeys).to.have.property('privateKeyTo');
+      expect(ecdhWithKeys.privateKeyTo).to.be.a('function');
+      expect(ecdhWithoutKeys.privateKeyTo).to.be.a('function');
     });
     
     describe('computeSecret', () => {
@@ -132,6 +139,7 @@ describe('Ecdh', () => {
         expect(alice.computeSecret.bind(alice, bob.publicKey, 'base64', 'invalidEncoding')).to.throw(Error);
       });
     });
+    
     describe('publicKeyTo', () => {
 
       let ecdhWithKeys = new Ecdh(),
