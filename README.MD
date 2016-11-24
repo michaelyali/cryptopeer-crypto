@@ -16,11 +16,11 @@ $ npm install cryptopeer-crypto
 const crypto = require('cryptopeer-crypto');
 ```
 
-### Ecdh with new keys
+### ECDH with new keys
 
 ```js
-let alice = new crypto.Ecdh(),
-    bob = new crypto.Ecdh();
+let alice = new crypto.ECDH(),
+    bob = new crypto.ECDH();
 
 let aliceShared = alice.computeSecret(bob.publicKeyBuffer, 'base64'),
     bobShared = bob.computeSecret(alice.publicKeyBuffer, 'base64');
@@ -28,20 +28,20 @@ let aliceShared = alice.computeSecret(bob.publicKeyBuffer, 'base64'),
 console.log(aliceShared === bobShared);
 ```
 
-### Ecdh from existing privateKey
+### ECDH from existing privateKey
 
 ```js
-let alice = new crypto.Ecdh(),
-    mallory = crypto.Ecdh.fromPrivateKey(alice.privateKey, 'base64');
+let alice = new crypto.ECDH(),
+    mallory = crypto.ECDH.fromPrivateKey(alice.privateKey, 'base64');
 
 console.log(alice.publicKey === mallory.publicKey);
 ```
 
-### Rsa
+### RSA
 
 ```js
-let alice = new crypto.Rsa(512),
-    bob = new crypto.Rsa(), // keyLength 512 is set to defalult
+let alice = new crypto.RSA(512),
+    bob = new crypto.RSA(), // keyLength 512 is set to defalult
     plainText = 'Hello Bob!';
 
 alice.setPublicKey(bob.publicKey);
