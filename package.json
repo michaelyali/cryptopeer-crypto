@@ -1,6 +1,6 @@
 {
   "name": "cryptopeer-crypto",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Crypto module for CryptoPeer",
   "main": "index.js",
   "private": false,
