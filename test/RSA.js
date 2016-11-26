@@ -4,29 +4,29 @@ const chai = require('chai'),
       expect = chai.expect;
 
 const lib = require('../lib'),
-      Rsa = lib.Rsa;
+      RSA = lib.RSA;
 
-describe('Rsa', () => {
+describe('RSA', () => {
 
   it('should exist', () => {
     expect(lib).to.exist;
-    expect(Rsa).to.exist;
-    expect(Rsa).to.be.a('function');
+    expect(RSA).to.exist;
+    expect(RSA).to.be.a('function');
   });
   
-  describe('new Rsa', () => {
+  describe('new RSA', () => {
 
-    let rsaWithKeyLength = new Rsa(),
-        rsaWithoutKeyLength = new Rsa(512);
+    let rsaWithKeyLength = new RSA(),
+        rsaWithoutKeyLength = new RSA(512);
 
     it('should create with keys', () => {
       expect(rsaWithKeyLength).to.be.ok;
-      expect(rsaWithKeyLength).to.be.an.instanceof(Rsa);
+      expect(rsaWithKeyLength).to.be.an.instanceof(RSA);
     });
 
     it('should create without keys', () => {
       expect(rsaWithoutKeyLength).to.be.ok;
-      expect(rsaWithoutKeyLength).to.be.an.instanceof(Rsa);
+      expect(rsaWithoutKeyLength).to.be.an.instanceof(RSA);
     });
 
     it('should have _privateKey', () => {
@@ -124,7 +124,7 @@ describe('Rsa', () => {
 
       let publicKey = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMHDFWJUuXOx9W5DgaJgLJ+ybUV+plLz1WDAC3TpeH9niFCqZr88MsbhQRloZ' +
           'LDqPFCbcdQ0K12f4uzj7xA4ZQMCAwEAAQ==',
-          alice = new Rsa(512);
+          alice = new RSA(512);
 
       it('should import publicKey base64', () => {
         alice.setPublicKey(publicKey);
@@ -150,7 +150,7 @@ describe('Rsa', () => {
         '1R/arpKNesuyx2g1H+BBjh9Cdg8RMQLH2NMvwVRlAiEAu4MpD2z/vxu23nnbwuWNbi9orV+snFdyEiP0iiyipUUCIAREJgUyimqWRiAgquH' +
         'XqUEAtNkK5xccICWG/w/XH+CpAiBoOUf6TgB87d+gGyV+V+9bnjhVnYcowyYhVSDYKGUi7QIgGTjlN4hZF3C5TJPiNjE0CAWWoQCpWWRRln' +
         '0TdS4SuoE=',
-          alice = new Rsa(512);
+          alice = new RSA(512);
 
       it('should import privateKey base64', () => {
         alice.setPrivateKey(privateKey);
@@ -171,8 +171,8 @@ describe('Rsa', () => {
     
     describe('cryptography', () => {
 
-      let alice = new Rsa(512),
-          bob = new Rsa(512),
+      let alice = new RSA(512),
+          bob = new RSA(512),
           plainString = 'Microphone checka!',
           plainNumber = 1024,
           plainObject = {
