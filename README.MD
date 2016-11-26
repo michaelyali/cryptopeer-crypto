@@ -42,22 +42,61 @@ console.log(alice.publicKey === mallory.publicKey);
 ```js
 let alice = new crypto.RSA(512),
     bob = new crypto.RSA(), // keyLength 512 is set to defalult
-    plainText = 'Hello Bob!';
+    message = 'Hello Bob!';
 
 alice.setPublicKey(bob.publicKey);
 
-let encrypted = alice.encrypt(plainText),
+let encrypted = alice.encrypt(message),
     decrypted = bob.decrypt(encrypted);
 
-console.log(decrypted === plainText);
+console.log(decrypted === message);
 ```
 
 Method **encrypt** expects `String`, `Number`, `Object`, `Array`, `null` or can be empty.
 
+### ChaCha20
+
+```js
+const ChaCha20 = crypto.ChaCha20;
+
+let message = 'Super secret message',
+    key = ChaCha20.getKey(),
+    nonce = ChaCha20.getNonce();
+
+let encrypted = ChaCha20.encrypt(message, nonce, key),
+    decrypted = ChaCha20.decrypt(encrypted, nonce, key).toString('utf8');
+
+console.log(decrypted === message);
+```
+
+### ChaCha20 with ECDH
+
+```js
+const ChaCha20 = crypto.ChaCha20,
+      ECDH = crypto.ECDH;
+
+let message = 'Hello Bob!';
+
+let aliceSecret = alice.computeSecret(bob.publicKey),
+    aliceKey = ChaCha20.getKey(aliceSecret),
+    nonce = ChaCha20.getNonce();
+
+let encrypted = ChaCha20.encrypt(message, nonce, aliceKey);
+
+let bobSecret = bob.computeSecret(alice.publicKey),
+    bobKey = ChaCha20.getKey(bobSecret);
+
+let decrypted = ChaCha20.decrypt(encrypted, nonce, bobKey).toString('utf8');
+
+console.log(decrypted === message);
+```
+
+Method **encrypt** expects `Buffer`, `String`.
+Method **decrypt** expects `Buffer`, encoded `String`.
+
 ## TODO
 
 - AES256 encrypt/decrypt
-- ChaCha20 encrypt/decrypt
 
 ## Test
 
