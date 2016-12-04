@@ -516,6 +516,10 @@ describe('RSA', () => {
           let decrypted = bob.decrypt(encryptedUndefined);
           expect(decrypted).equal('');
         });
+
+        it('should not pass with invalid params', () => {
+          expect(bob.decrypt.bind(bob, 'invalidString')).to.throw(Error);
+        });
       });
       
       describe('decryptAsync', ()=> {
@@ -598,6 +602,18 @@ describe('RSA', () => {
             })
             .catch(err => {
               throw err;
+            });
+        });
+        
+        it('should not pass with invalid params', done => {
+          bob
+            .decryptAsync('InvalidString')
+            .then(ok => {
+              throw new Error();
+            })
+            .catch(err => {
+              expect(err).to.be.an('error');
+              done();
             });
         });
       });
