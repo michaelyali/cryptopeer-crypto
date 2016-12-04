@@ -94,6 +94,11 @@ console.log(decrypted === message);
 Method **encrypt** expects `Buffer`, `String`.
 Method **decrypt** expects `Buffer`, encoded `String`.
 
+### With Promises
+
+All methods has been promisified already. You can call them with `*Async` ending.
+e.g. `alice.computeSecretAsync()`, `ChaCha20.encryptAsync()` and so on.
+
 ## TODO
 
 - AES256 encrypt/decrypt
