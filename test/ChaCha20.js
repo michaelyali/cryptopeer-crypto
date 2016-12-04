@@ -79,6 +79,125 @@ describe('ChaCha20', () => {
     });
   });
   
+  describe('getNonceIncrementAsync', ()=> {
+
+    it('should exist', () => {
+      expect(ChaCha20).to.have.property('getNonceIncrementAsync');
+      expect(ChaCha20.getNonceIncrementAsync).to.be.a('function');
+    });
+
+    it('should return incremented nonce buffer from buffer', done => {
+      let nonce = ChaCha20.getNonce();
+      ChaCha20
+        .getNonceIncrementAsync(nonce)
+        .then(inonce => {
+          expect(inonce).to.be.an.instanceof(Buffer);
+          expect(inonce).to.have.lengthOf(NPUBBYTES);
+          expect(inonce.compare(nonce)).equal(1);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+    
+    it('should return incremented nonce buffer from encoded string, 1/2', done => {
+      let nonce = ChaCha20.getNonce(),
+          nonceString = nonce.toString('base64');
+      ChaCha20
+        .getNonceIncrementAsync(nonce)
+        .then(inonce => {
+          expect(nonceString).to.be.a('string');
+          expect(inonce).to.be.an.instanceof(Buffer);
+          expect(inonce).to.have.lengthOf(NPUBBYTES);
+          expect(inonce.compare(nonce)).equal(1);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+
+    it('should return incremented nonce buffer from encoded string, 2/2', done => {
+      let nonce = ChaCha20.getNonce(),
+          nonceString = nonce.toString('hex');
+      ChaCha20
+        .getNonceIncrementAsync(nonce, 'hex')
+        .then(inonce => {
+          expect(nonceString).to.be.a('string');
+          expect(inonce).to.be.an.instanceof(Buffer);
+          expect(inonce).to.have.lengthOf(NPUBBYTES);
+          expect(inonce.compare(nonce)).equal(1);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+    
+    it('should not pass with invalid params, 1/5', done => {
+      let nonce = ChaCha20.getNonce();
+      ChaCha20
+        .getNonceIncrementAsync(nonce.toString('hex'), 'base64')
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        })
+    });
+    
+    it('should not pass with invalid params, 2/5', done => {
+      let nonce = ChaCha20.getNonce();
+      ChaCha20
+        .getNonceIncrementAsync(nonce.toString('hex'), 'invalidEncoding')
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        })
+    });
+    
+    it('should not pass with invalid params, 3/5', done => {
+      ChaCha20
+        .getNonceIncrementAsync('invalidNonce')
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        })
+    });
+    
+    it('should not pass with invalid params, 4/5', done => {
+      ChaCha20
+        .getNonceIncrementAsync(new Buffer(9))
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        })
+    });
+    
+    it('should not pass with invalid params, 5/5', done => {
+      ChaCha20
+        .getNonceIncrementAsync()
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        })
+    });
+  });
+  
   describe('getKey', () => {
 
     it('should exist', () => {
