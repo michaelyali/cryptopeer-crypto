@@ -98,12 +98,26 @@ describe('RSA', () => {
       expect(rsaWithKeyLength.setPrivateKey).to.be.a('function');
       expect(rsaWithoutKeyLength.setPrivateKey).to.be.a('function');
     });
+
+    it('should have setPrivateKeyAsync', () => {
+      expect(rsaWithKeyLength).to.have.property('setPrivateKeyAsync');
+      expect(rsaWithoutKeyLength).to.have.property('setPrivateKeyAsync');
+      expect(rsaWithKeyLength.setPrivateKeyAsync).to.be.a('function');
+      expect(rsaWithoutKeyLength.setPrivateKeyAsync).to.be.a('function');
+    });
     
     it('should have setPublicKey', () => {
       expect(rsaWithKeyLength).to.have.property('setPublicKey');
       expect(rsaWithoutKeyLength).to.have.property('setPublicKey');
       expect(rsaWithKeyLength.setPublicKey).to.be.a('function');
       expect(rsaWithoutKeyLength.setPublicKey).to.be.a('function');
+    });
+
+    it('should have setPublicKeyAsync', () => {
+      expect(rsaWithKeyLength).to.have.property('setPublicKeyAsync');
+      expect(rsaWithoutKeyLength).to.have.property('setPublicKeyAsync');
+      expect(rsaWithKeyLength.setPublicKeyAsync).to.be.a('function');
+      expect(rsaWithoutKeyLength.setPublicKeyAsync).to.be.a('function');
     });
     
     it('should have encrypt', () => {
@@ -112,12 +126,26 @@ describe('RSA', () => {
       expect(rsaWithKeyLength.encrypt).to.be.a('function');
       expect(rsaWithoutKeyLength.encrypt).to.be.a('function');
     });
+
+    it('should have encryptAsync', () => {
+      expect(rsaWithKeyLength).to.have.property('encryptAsync');
+      expect(rsaWithoutKeyLength).to.have.property('encryptAsync');
+      expect(rsaWithKeyLength.encryptAsync).to.be.a('function');
+      expect(rsaWithoutKeyLength.encryptAsync).to.be.a('function');
+    });
     
     it('should have decrypt', () => {
       expect(rsaWithKeyLength).to.have.property('decrypt');
       expect(rsaWithoutKeyLength).to.have.property('decrypt');
       expect(rsaWithKeyLength.decrypt).to.be.a('function');
       expect(rsaWithoutKeyLength.decrypt).to.be.a('function');
+    });
+
+    it('should have decryptAsync', () => {
+      expect(rsaWithKeyLength).to.have.property('decryptAsync');
+      expect(rsaWithoutKeyLength).to.have.property('decryptAsync');
+      expect(rsaWithKeyLength.decryptAsync).to.be.a('function');
+      expect(rsaWithoutKeyLength.decryptAsync).to.be.a('function');
     });
 
     describe('setPublicKey', () => {
@@ -140,6 +168,62 @@ describe('RSA', () => {
       it('should not pass with invalid params', () => {
         expect(alice.setPublicKey.bind(alice, 'invalidBuffer')).to.throw(Error);
         expect(alice.setPublicKey.bind(alice, publicKey, 'invalidEncoding')).to.throw(Error);
+      });
+    });
+    
+    describe('setPublicKeyAsync', ()=> {
+
+      let publicKey = 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMHDFWJUuXOx9W5DgaJgLJ+ybUV+plLz1WDAC3TpeH9niFCqZr88MsbhQRloZ' +
+          'LDqPFCbcdQ0K12f4uzj7xA4ZQMCAwEAAQ==',
+          alice = new RSA(512);
+      
+      it('should import publicKey base64', done => {
+        alice
+          .setPublicKeyAsync(publicKey)
+          .then(ok => {
+            expect(alice.publicKey).equal(publicKey);
+            done();
+          })
+          .catch(err => {
+            throw err;
+          });
+      });
+
+      it('should import publicKey buffer', done => {
+        let publicKeyBuffer = new Buffer(publicKey, 'base64');
+        alice
+          .setPublicKeyAsync(publicKeyBuffer)
+          .then(ok => {
+            expect(alice.publicKeyBuffer).equal(publicKeyBuffer);
+            done();
+          })
+          .catch(err => {
+            throw err;
+          });
+      });
+
+      it('should not pass with invalid params, 1/2', done => {
+        alice
+          .setPublicKeyAsync('invalidBuffer')
+          .then(ok => {
+            throw new Error();
+          })
+          .catch(err => {
+            expect(err).to.be.an('error');
+            done();
+          });
+      });
+
+      it('should not pass with invalid params, 2/2', done => {
+        alice
+          .setPublicKeyAsync(publicKey, 'invalidEncoding')
+          .then(ok => {
+            throw new Error();
+          })
+          .catch(err => {
+            expect(err).to.be.an('error');
+            done();
+          });
       });
     });
 
@@ -166,6 +250,65 @@ describe('RSA', () => {
       it('should not pass with invalid params', () => {
         expect(alice.setPrivateKey.bind(alice, 'invalidBuffer')).to.throw(Error);
         expect(alice.setPrivateKey.bind(alice, privateKey, 'invalidEncoding')).to.throw(Error);
+      });
+    });
+    
+    describe('setPrivateKeyAsync', ()=> {
+
+      let privateKey = 'MIIBOQIBAAJBAKlAad4bmmByKbwV/jI2pQMx+VNghqXdf0/rpO6d9fVQu6cbs6gPo+piJDTc3Uau7qV43WaPk4dvtu3D/' +
+          'j5q2DkCAwEAAQJATMgG/xbgou5HlqcXiWoW0+tA450/mFFypywMx59rbFz0z64KVrrv2NkIE2ExPhuCtS9oMeQCLa7BtEhRVhitsQIhAOcR' +
+          '1R/arpKNesuyx2g1H+BBjh9Cdg8RMQLH2NMvwVRlAiEAu4MpD2z/vxu23nnbwuWNbi9orV+snFdyEiP0iiyipUUCIAREJgUyimqWRiAgquH' +
+          'XqUEAtNkK5xccICWG/w/XH+CpAiBoOUf6TgB87d+gGyV+V+9bnjhVnYcowyYhVSDYKGUi7QIgGTjlN4hZF3C5TJPiNjE0CAWWoQCpWWRRln' +
+          '0TdS4SuoE=',
+          alice = new RSA(512);
+      
+      it('should import privateKey base64', done => {
+        alice
+          .setPrivateKeyAsync(privateKey)
+          .then(ok => {
+            expect(alice.privateKey).equal(privateKey);
+            done();
+          })
+          .catch(err => {
+            throw err;
+          });
+      });
+      
+      it('should import privateKey buffer', done => {
+        let privateKeyBuffer = new Buffer(privateKey, 'base64');
+        alice
+          .setPrivateKeyAsync(privateKeyBuffer)
+          .then(ok => {
+            expect(alice.privateKeyBuffer).equal(privateKeyBuffer);
+            done();
+          })
+          .catch(err => {
+            throw err;
+          });
+      });
+      
+      it('should not pass with invalid params, 1/2', done => {
+        alice
+          .setPrivateKeyAsync('invalidBuffer')
+          .then(ok => {
+            throw new Error();
+          })
+          .catch(err => {
+            expect(err).to.be.an('error');
+            done();
+          });
+      });
+
+      it('should not pass with invalid params, 2/2', done => {
+        alice
+          .setPrivateKeyAsync(privateKey, 'invalidEncoding')
+          .then(ok => {
+            throw new Error();
+          })
+          .catch(err => {
+            expect(err).to.be.an('error');
+            done();
+          });
       });
     });
     
@@ -226,6 +369,113 @@ describe('RSA', () => {
         });
       });
       
+      describe('encryptAsync', ()=> {
+
+        alice.setPublicKey(bob.publicKey);
+        
+        it('should encrypt a string', done => {
+          alice
+            .encryptAsync(plainString)
+            .then(en => {
+              encryptedString = en;
+              expect(encryptedString).to.be.a('string');
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+        
+        it('should encrypt a number', done => {
+          alice
+            .encryptAsync(plainNumber)
+            .then(en => {
+              encryptedNumber = en;
+              expect(encryptedNumber).to.be.a('string');
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+
+        it('should encrypt an object', done => {
+          alice
+            .encryptAsync(plainObject)
+            .then(en => {
+              encryptedObject = en;
+              expect(encryptedObject).to.be.a('string');
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+
+        it('should encrypt an array', done => {
+          alice
+            .encryptAsync(plainArray)
+            .then(en => {
+              encryptedArray = en;
+              expect(encryptedArray).to.be.a('string');
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+
+        it('should encrypt null', done => {
+          alice
+            .encryptAsync(null)
+            .then(en => {
+              encryptedNull = en;
+              expect(encryptedNull).to.be.a('string');
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+        
+        it('should encrypt with empty params', done => {
+          alice
+            .encryptAsync()
+            .then(en => {
+              encryptedUndefined = en;
+              expect(encryptedUndefined).to.be.a('string');
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+        
+        it('should not pass true, false, 1/2', done => {
+          alice
+            .encryptAsync(true)
+            .then(ok => {
+              throw new Error();
+            })
+            .catch(err => {
+              expect(err).to.be.an('error');
+              done();
+            })
+        });
+        
+        it('should not pass true, false, 2/2', done => {
+          alice
+            .encryptAsync(true)
+            .then(ok => {
+              throw new Error();
+            })
+            .catch(err => {
+              expect(err).to.be.an('error');
+              done();
+            })
+        });
+      });
+      
       describe('decrypt', () => {
         
         it('should decrypt to strings', () => {
@@ -265,6 +515,90 @@ describe('RSA', () => {
         it('should decrypt empty params to an empty string', () => {
           let decrypted = bob.decrypt(encryptedUndefined);
           expect(decrypted).equal('');
+        });
+      });
+      
+      describe('decryptAsync', ()=> {
+        
+        it('should decrypt to strings', done => {
+          bob
+            .decryptAsync(encryptedString)
+            .then(decrypted => {
+              expect(decrypted).equal(plainString);
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+
+        it('should decrypt to numbers', done => {
+          bob
+            .decryptAsync(encryptedNumber)
+            .then(decrypted => {
+              expect(decrypted).equal(plainNumber);
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+
+        it('should decrypt to object', done => {
+          bob
+            .decryptAsync(encryptedObject)
+            .then(decrypted => {
+              expect(decrypted).to.be.an('object');
+              expect(decrypted).to.have.property('foo');
+              expect(decrypted.foo).equal(plainObject.foo);
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+
+        it('should decrypt to array', done => {
+          bob
+            .decryptAsync(encryptedArray)
+            .then(decrypted => {
+              expect(decrypted).to.be.an('array');
+              expect(decrypted[0]).equal(plainArray[0]);
+              expect(decrypted[1]).equal(plainArray[1]);
+              expect(decrypted[2]).equal(plainArray[2]);
+              expect(decrypted[3]).equal(plainArray[3]);
+              expect(decrypted[4]).to.be.an('object');
+              expect(decrypted[4]).to.have.property('foo');
+              expect(decrypted[4].foo).equal(plainObject.foo);
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+        
+        it('should decrypt null to string null', done => {
+          bob
+            .decryptAsync(encryptedNull)
+            .then(decrypted => {
+              expect(decrypted).equal('null');
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
+        });
+
+        it('should decrypt empty params to an empty string', done => {
+          bob
+            .decryptAsync(encryptedUndefined)
+            .then(decrypted => {
+              expect(decrypted).equal('');
+              done();
+            })
+            .catch(err => {
+              throw err;
+            });
         });
       });
     });
