@@ -430,4 +430,207 @@ describe('ChaCha20', () => {
       expect(ChaCha20.decrypt.bind(ChaCha20, encrypted, nonce, key.toString('base64'))).to.throw(Error);
     });
   });
+  
+  describe('decryptAsync', ()=> {
+
+    it('should exist', () => {
+      expect(ChaCha20).to.have.property('decryptAsync');
+      expect(ChaCha20.decryptAsync).to.be.a('function');
+    });
+    
+    it('should decrypt with cipher buffer', done => {
+      ChaCha20
+        .decryptAsync(new Buffer(encrypted, 'base64'), nonce, key)
+        .then(dec => {
+          expect(dec).to.be.an.instanceof(Buffer);
+          expect(dec.toString('utf8')).equal(plainText);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+    
+    it('should decrypt with cipher base64, 1/2', done => {
+      ChaCha20
+        .decryptAsync(encrypted, 'base64', nonce, key)
+        .then(dec => {
+          expect(dec).to.be.an.instanceof(Buffer);
+          expect(dec.toString('utf8')).equal(plainText);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+
+    it('should decrypt with cipher base64, 2/2', done => {
+      ChaCha20
+        .decryptAsync(encrypted, nonce, key)
+        .then(dec => {
+          expect(dec).to.be.an.instanceof(Buffer);
+          expect(dec.toString('utf8')).equal(plainText);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+
+    it('should not pass with invalid params, 1/13', done => {
+      ChaCha20
+        .decryptAsync()
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 2/13', done => {
+      ChaCha20
+        .decryptAsync(encrypted)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 3/13', done => {
+      ChaCha20
+        .decryptAsync(encrypted, 'secondRandomParam')
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 4/13', done => {
+      ChaCha20
+        .decryptAsync(encrypted, 'hex', nonce, key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 5/13', done => {
+      ChaCha20
+        .decryptAsync(encrypted, 'invalidEncoding', nonce, key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 6/13', done => {
+      ChaCha20
+        .decryptAsync(false, nonce, key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 7/13', done => {
+      ChaCha20
+        .decryptAsync(true, nonce, key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 8/13', done => {
+      ChaCha20
+        .decryptAsync(null, nonce, key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 9/13', done => {
+      ChaCha20
+        .decryptAsync({}, nonce, key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 10/13', done => {
+      ChaCha20
+        .decryptAsync(0, nonce, key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 11/13', done => {
+      ChaCha20
+        .decryptAsync(128, nonce, key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 12/13', done => {
+      ChaCha20
+        .decryptAsync(encrypted, nonce.toString('base64'), key)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 13/13', done => {
+      ChaCha20
+        .decryptAsync(encrypted, nonce, key.toString('base64'))
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+  });
 });
