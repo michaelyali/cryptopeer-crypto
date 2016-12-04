@@ -255,6 +255,200 @@ describe('ChaCha20', () => {
       expect(ChaCha20.getKey.bind(ChaCha20, 'SuperSecretKey', {})).to.throw(Error);
     });
   });
+  
+  describe('getKeyAsync', ()=> {
+
+    it('should exist', () => {
+      expect(ChaCha20).to.have.property('getKeyAsync');
+      expect(ChaCha20.getKeyAsync).to.be.a('function');
+    });
+    
+    it('should return a random key from empty params', done => {
+      ChaCha20
+        .getKeyAsync()
+        .then(key => {
+          expect(key).to.be.an.instanceof(Buffer);
+          expect(key).to.have.lengthOf(KEYBYTES);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+    
+    it('should return a key with secret param only, 1/2', done => {
+      ChaCha20
+        .getKeyAsync('SuperSecretKey')
+        .then(key => {
+          expect(key).to.be.an.instanceof(Buffer);
+          expect(key).to.have.lengthOf(KEYBYTES);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+
+    it('should return a key with secret param only, 2/2', done => {
+      ChaCha20
+        .getKeyAsync(new Buffer('SuperSecretKey'))
+        .then(key => {
+          expect(key).to.be.an.instanceof(Buffer);
+          expect(key).to.have.lengthOf(KEYBYTES);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+
+    it('should return a key with secret and salt params, 1/2', done => {
+      ChaCha20
+        .getKeyAsync('SuperSecretKey', 'SuperRandomSalt')
+        .then(key => {
+          expect(key).to.be.an.instanceof(Buffer);
+          expect(key).to.have.lengthOf(KEYBYTES);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+
+    it('should return a key with secret and salt params, 2/2', done => {
+      ChaCha20
+        .getKeyAsync(new Buffer('SuperSecretKey'), new Buffer('SuperRandomSalt'))
+        .then(key => {
+          expect(key).to.be.an.instanceof(Buffer);
+          expect(key).to.have.lengthOf(KEYBYTES);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+    
+    it('should return a key with secret, salt and encoding params', done => {
+      ChaCha20
+        .getKeyAsync(new Buffer('SuperSecretKey').toString('hex'), 'hex', 'SuperRandomSalt')
+        .then(key => {
+          expect(key).to.be.an.instanceof(Buffer);
+          expect(key).to.have.lengthOf(KEYBYTES);
+          done();
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+    
+    it('should not pass with invalid params, 1/9', done => {
+      ChaCha20
+        .getKeyAsync(false)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 2/9', done => {
+      ChaCha20
+        .getKeyAsync(true)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 3/9', done => {
+      ChaCha20
+        .getKeyAsync(null)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 4/9', done => {
+      ChaCha20
+        .getKeyAsync({})
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+    
+    it('should not pass with invalid params, 5/9', done => {
+      ChaCha20
+        .getKeyAsync(new Buffer('SuperSecretKey').toString('hex'), 'invalidEncoding', 'SuperRandomSalt')
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+    
+    it('should not pass with invalid params, 6/9', done => {
+      ChaCha20
+        .getKeyAsync('SuperSecretKey', false)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+    
+    it('should not pass with invalid params, 7/9', done => {
+      ChaCha20
+        .getKeyAsync('SuperSecretKey', true)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 8/9', done => {
+      ChaCha20
+        .getKeyAsync('SuperSecretKey', null)
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+
+    it('should not pass with invalid params, 9/9', done => {
+      ChaCha20
+        .getKeyAsync('SuperSecretKey', {})
+        .then(ok => {
+          throw new Error();
+        })
+        .catch(err => {
+          expect(err).to.be.an('error');
+          done();
+        });
+    });
+  });
 
   let plainText = 'Test message from Alice',
       nonce = new Buffer('SUxfjOvrEyA=', 'base64'),
