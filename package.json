@@ -6,7 +6,7 @@
   "private": false,
   "scripts": {
     "lint": "node_modules/.bin/eslint . || exit 0",
-    "test": "npm run lint && node_modules/.bin/mocha test",
+    "test": "npm run lint && mocha test",
     "postinstall": "npm test"
   },
   "author": "Michael Yali <yali.mykhailo@gmail.com>",
