@@ -1,15 +1,14 @@
-'use strict';
+/* eslint no-unused-expressions: 0 */
 
-const chai = require('chai'),
-      expect = chai.expect;
+const chai = require('chai');
+const lib = require('../lib');
 
-const lib = require('../lib'),
-      ECDH = lib.ECDH;
+const expect = chai.expect;
+const ECDH = lib.ECDH;
 
 describe('ECDH', () => {
-
-  let privateKeyBase64 = 'd05yp7dX+X9FW9KkiunJ+qSp8/RDrFpiQ02EasZre9E=',
-      privateKeyBuffer = new Buffer(privateKeyBase64, 'base64');
+  const privateKeyBase64 = 'd05yp7dX+X9FW9KkiunJ+qSp8/RDrFpiQ02EasZre9E=';
+  const privateKeyBuffer = new Buffer(privateKeyBase64, 'base64');
 
   it('should exist', () => {
     expect(lib).to.exist;
@@ -18,10 +17,9 @@ describe('ECDH', () => {
   });
 
   describe('new ECDH', () => {
-    
-    let ecdhWithKeys = new ECDH(),
-        ecdhWithoutKeys = new ECDH(true);
-    
+    const ecdhWithKeys = new ECDH();
+    const ecdhWithoutKeys = new ECDH(true);
+
     it('should create with keys', () => {
       expect(ecdhWithKeys).to.be.ok;
       expect(ecdhWithKeys).to.be.an.instanceof(ECDH);
@@ -31,7 +29,7 @@ describe('ECDH', () => {
       expect(ecdhWithoutKeys).to.be.ok;
       expect(ecdhWithoutKeys).to.be.an.instanceof(ECDH);
     });
-    
+
     it('should have _privateKey', () => {
       expect(ecdhWithKeys).to.have.property('_privateKey');
       expect(ecdhWithoutKeys).to.have.property('_privateKey');
@@ -73,7 +71,7 @@ describe('ECDH', () => {
       expect(ecdhWithKeys.publicKeyBuffer).to.be.an.instanceof(Buffer);
       expect(ecdhWithoutKeys.publicKeyBuffer).to.be.a('null');
     });
-    
+
     it('should have computeSecret', () => {
       expect(ecdhWithKeys).to.have.property('computeSecret');
       expect(ecdhWithoutKeys).to.have.property('computeSecret');
@@ -101,17 +99,16 @@ describe('ECDH', () => {
       expect(ecdhWithKeys.privateKeyTo).to.be.a('function');
       expect(ecdhWithoutKeys.privateKeyTo).to.be.a('function');
     });
-    
-    describe('computeSecret', () => {
 
-      let alice = new ECDH(),
-          bob = new ECDH(),
-          aliceShared = null,
-          bobShared = null;
+    describe('computeSecret', () => {
+      const alice = new ECDH();
+      const bob = new ECDH();
+      let aliceShared = null;
+      let bobShared = null;
 
 
       it('should return null if privateKey is null', () => {
-        let tuBeNull = ecdhWithoutKeys.computeSecret();
+        const tuBeNull = ecdhWithoutKeys.computeSecret();
         expect(tuBeNull).to.be.null;
       });
 
@@ -123,14 +120,14 @@ describe('ECDH', () => {
         expect(aliceShared.toString('base64')).to.equal(bobShared.toString('base64'));
       });
 
-      it('should compute equal ECDH secrets base64, 1/2', () =>{
+      it('should compute equal ECDH secrets base64, 1/2', () => {
         aliceShared = alice.computeSecret(bob.publicKey, 'base64');
         bobShared = bob.computeSecret(alice.publicKey, 'base64');
         expect(aliceShared).to.be.an.instanceof(Buffer);
         expect(bobShared).to.be.an.instanceof(Buffer);
         expect(aliceShared.toString('base64')).to.equal(bobShared.toString('base64'));
       });
-      
+
       it('should compute equal ECDH secrets base64, 2/2', () => {
         aliceShared = alice.computeSecret(bob.publicKey, 'base64', 'base64');
         bobShared = bob.computeSecret(alice.publicKey, 'base64', 'base64');
@@ -138,42 +135,41 @@ describe('ECDH', () => {
         expect(bobShared).to.be.a('string');
         expect(aliceShared).to.equal(bobShared);
       });
-      
+
       it('should not pass with invalid params', () => {
         expect(alice.computeSecret.bind(alice, 'invalidBuffer')).to.throw(Error);
         expect(alice.computeSecret.bind(alice, bob.publicKey, 'invalidEncoding')).to.throw(Error);
         expect(alice.computeSecret.bind(alice, bob.publicKey, 'base64', 'invalidEncoding')).to.throw(Error);
       });
     });
-    
-    describe('computeSecretAsync', ()=> {
 
-      let alice = new ECDH(),
-          bob = new ECDH(),
-          aliceShared = null,
-          bobShared = null;
+    describe('computeSecretAsync', () => {
+      const alice = new ECDH();
+      const bob = new ECDH();
 
-      it('should return null if privateKey is null', done => {
+      it('should return null if privateKey is null', (done) => {
         ecdhWithoutKeys
           .computeSecretAsync()
-          .then(tuBeNull => {
+          .then((tuBeNull) => {
             expect(tuBeNull).to.be.null;
             done();
           })
-          .catch(err => {
+          .catch((err) => {
             throw err;
           });
       });
 
-      it('should compute equal ECDH secrets buffers', done => {
-        let aliceShared, bobShared;
+      it('should compute equal ECDH secrets buffers', (done) => {
+        let aliceShared = null;
+        let bobShared = null;
+
         alice
           .computeSecretAsync(bob.publicKeyBuffer)
-          .then(_aliceShared => {
+          .then((_aliceShared) => {
             aliceShared = _aliceShared;
             return bob.computeSecretAsync(alice.publicKeyBuffer);
           })
-          .then(_bobShared => {
+          .then((_bobShared) => {
             bobShared = _bobShared;
 
             expect(aliceShared).to.be.an.instanceof(Buffer);
@@ -181,20 +177,22 @@ describe('ECDH', () => {
             expect(aliceShared.toString('base64')).to.equal(bobShared.toString('base64'));
             done();
           })
-          .catch(err => {
+          .catch((err) => {
             throw err;
           });
       });
 
-      it('should compute equal ECDH secrets base64, 1/2', done => {
-        let aliceShared, bobShared;
+      it('should compute equal ECDH secrets base64, 1/2', (done) => {
+        let aliceShared = null;
+        let bobShared = null;
+
         alice
           .computeSecretAsync(bob.publicKey, 'base64')
-          .then(_aliceShared => {
+          .then((_aliceShared) => {
             aliceShared = _aliceShared;
             return bob.computeSecretAsync(alice.publicKey, 'base64');
           })
-          .then(_bobShared => {
+          .then((_bobShared) => {
             bobShared = _bobShared;
 
             expect(aliceShared).to.be.an.instanceof(Buffer);
@@ -202,20 +200,22 @@ describe('ECDH', () => {
             expect(aliceShared.toString('base64')).to.equal(bobShared.toString('base64'));
             done();
           })
-          .catch(err => {
+          .catch((err) => {
             throw err;
           });
       });
 
-      it('should compute equal ECDH secrets base64, 2/2', done => {
-        let aliceShared, bobShared;
+      it('should compute equal ECDH secrets base64, 2/2', (done) => {
+        let aliceShared = null;
+        let bobShared = null;
+
         alice
           .computeSecretAsync(bob.publicKey, 'base64', 'base64')
-          .then(_aliceShared => {
+          .then((_aliceShared) => {
             aliceShared = _aliceShared;
             return bob.computeSecretAsync(alice.publicKey, 'base64', 'base64');
           })
-          .then(_bobShared => {
+          .then((_bobShared) => {
             bobShared = _bobShared;
 
             expect(aliceShared).to.be.a('string');
@@ -223,62 +223,61 @@ describe('ECDH', () => {
             expect(aliceShared).to.equal(bobShared);
             done();
           })
-          .catch(err => {
+          .catch((err) => {
             throw err;
           });
       });
-      
-      it('should not pass with invalid params, 1/3', done => {
+
+      it('should not pass with invalid params, 1/3', (done) => {
         alice
           .computeSecretAsync('invalidBuffer')
-          .then(ok => {
+          .then(() => {
             throw new Error();
           })
-          .catch(err => {
+          .catch((err) => {
             expect(err).to.be.an('error');
             done();
           });
       });
-      
-      it('should not pass with invalid params, 2/3', done => {
+
+      it('should not pass with invalid params, 2/3', (done) => {
         alice
           .computeSecretAsync(bob.publicKey, 'invalidEncoding')
-          .then(ok => {
+          .then(() => {
             throw new Error();
           })
-          .catch(err => {
+          .catch((err) => {
             expect(err).to.be.an('error');
             done();
           });
       });
-      
-      it('should not pass with invalid params, 3/3', done => {
+
+      it('should not pass with invalid params, 3/3', (done) => {
         alice
           .computeSecretAsync(bob.publicKey, 'base64', 'invalidEncoding')
-          .then(ok => {
+          .then(() => {
             throw new Error();
           })
-          .catch(err => {
+          .catch((err) => {
             expect(err).to.be.an('error');
             done();
           });
       });
     });
-    
-    describe('publicKeyTo', () => {
 
-      let ecdhWithKeys = new ECDH(),
-          ecdhWithoutKeys = new ECDH(true);
+    describe('publicKeyTo', () => {
+      const ecdhWithKeyslocal = new ECDH();
+      const ecdhWithoutKeysLocal = new ECDH(true);
 
       it('should return null if publicKey is null', () => {
-        let tuBeNull = ecdhWithoutKeys.publicKeyTo();
+        const tuBeNull = ecdhWithoutKeysLocal.publicKeyTo();
         expect(tuBeNull).to.be.null;
       });
 
       it('should return encoded string', () => {
-        let str = ecdhWithKeys.publicKeyTo();
-        let str2 = ecdhWithKeys.publicKeyTo('base64');
-        let str3 = ecdhWithKeys.publicKeyTo('hex');
+        const str = ecdhWithKeyslocal.publicKeyTo();
+        const str2 = ecdhWithKeyslocal.publicKeyTo('base64');
+        const str3 = ecdhWithKeyslocal.publicKeyTo('hex');
 
         expect(str).to.be.a('string');
         expect(str2).to.be.a('string');
@@ -286,24 +285,23 @@ describe('ECDH', () => {
       });
 
       it('should not pass with invalid params', () => {
-        expect(ecdhWithKeys.publicKeyTo.bind(ecdhWithKeys, 'invalidEncoding')).to.throw(Error);
+        expect(ecdhWithKeyslocal.publicKeyTo.bind(ecdhWithKeyslocal, 'invalidEncoding')).to.throw(Error);
       });
     });
 
     describe('privateKeyTo', () => {
-
-      let ecdhWithKeys = new ECDH(),
-          ecdhWithoutKeys = new ECDH(true);
+      const ecdhWithKeyslocal = new ECDH();
+      const ecdhWithoutKeysLocal = new ECDH(true);
 
       it('should return null if privateKey is null', () => {
-        let tuBeNull = ecdhWithoutKeys.privateKeyTo();
+        const tuBeNull = ecdhWithoutKeysLocal.privateKeyTo();
         expect(tuBeNull).to.be.null;
       });
 
       it('should return encoded string', () => {
-        let str = ecdhWithKeys.privateKeyTo();
-        let str2 = ecdhWithKeys.privateKeyTo('base64');
-        let str3 = ecdhWithKeys.privateKeyTo('hex');
+        const str = ecdhWithKeyslocal.privateKeyTo();
+        const str2 = ecdhWithKeyslocal.privateKeyTo('base64');
+        const str3 = ecdhWithKeyslocal.privateKeyTo('hex');
 
         expect(str).to.be.a('string');
         expect(str2).to.be.a('string');
@@ -311,108 +309,106 @@ describe('ECDH', () => {
       });
 
       it('should not pass with invalid params', () => {
-        expect(ecdhWithKeys.privateKeyTo.bind(ecdhWithKeys, 'invalidEncoding')).to.throw(Error);
+        expect(ecdhWithKeyslocal.privateKeyTo.bind(ecdhWithKeyslocal, 'invalidEncoding')).to.throw(Error);
       });
     });
   });
 
   describe('fromPrivateKey', () => {
-    
     it('should exist', () => {
       expect(ECDH.fromPrivateKey).to.be.ok;
       expect(ECDH.fromPrivateKey).to.be.a('function');
     });
-    
+
     it('should create new ECDH from privateKey base64', () => {
-      let ecdh = ECDH.fromPrivateKey(privateKeyBase64);
+      const ecdh = ECDH.fromPrivateKey(privateKeyBase64);
       expect(ecdh).to.be.ok;
       expect(ecdh).to.be.an.instanceof(ECDH);
 
-      let ecdh2 = ECDH.fromPrivateKey(privateKeyBase64, 'base64');
+      const ecdh2 = ECDH.fromPrivateKey(privateKeyBase64, 'base64');
       expect(ecdh2).to.be.ok;
       expect(ecdh2).to.be.an.instanceof(ECDH);
     });
-    
+
     it('should create new ECDH from privateKey Buffer', () => {
-      let ecdh = ECDH.fromPrivateKey(privateKeyBuffer);
+      const ecdh = ECDH.fromPrivateKey(privateKeyBuffer);
       expect(ecdh).to.be.ok;
       expect(ecdh).to.be.an.instanceof(ECDH);
     });
-    
+
     it('should not pass with invalid params', () => {
       expect(ECDH.fromPrivateKey.bind(ECDH, 'invalidKey')).to.throw(Error);
       expect(ECDH.fromPrivateKey.bind(ECDH, privateKeyBase64, 'invalidEncoding')).to.throw(Error);
     });
   });
-  
-  describe('fromPrivateKeyAsync', ()=> {
 
+  describe('fromPrivateKeyAsync', () => {
     it('should exist', () => {
       expect(ECDH.fromPrivateKeyAsync).to.be.ok;
       expect(ECDH.fromPrivateKeyAsync).to.be.a('function');
     });
-    
-    it('should create new ECDH from privateKey base64, 1/2', done => {
+
+    it('should create new ECDH from privateKey base64, 1/2', (done) => {
       ECDH
         .fromPrivateKeyAsync(privateKeyBase64)
-        .then(ecdh => {
+        .then((ecdh) => {
           expect(ecdh).to.be.ok;
           expect(ecdh).to.be.an.instanceof(ECDH);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           throw e;
         });
     });
-    
-    it('should create new ECDH from privateKey base64, 2/2', done => {
+
+    it('should create new ECDH from privateKey base64, 2/2', (done) => {
       ECDH
         .fromPrivateKeyAsync(privateKeyBase64, 'base64')
-        .then(ecdh => {
+        .then((ecdh) => {
           expect(ecdh).to.be.ok;
           expect(ecdh).to.be.an.instanceof(ECDH);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           throw e;
         });
     });
-    
-    it('should create new ECDH from privateKey Buffer', done => {
+
+    it('should create new ECDH from privateKey Buffer', (done) => {
       ECDH
         .fromPrivateKeyAsync(privateKeyBuffer)
-        .then(ecdh => {
+        .then((ecdh) => {
           expect(ecdh).to.be.ok;
           expect(ecdh).to.be.an.instanceof(ECDH);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           throw e;
         });
     });
-    
-    it('should not pass with invalid params, 1/2', done => {
+
+    it('should not pass with invalid params, 1/2', (done) => {
       ECDH
         .fromPrivateKeyAsync('invalidKey')
         .then(() => {
           throw new Error();
         })
-        .catch(err => {
+        .catch((err) => {
           expect(err).to.be.an('error');
           done();
-        })
+        });
     });
 
-    it('should not pass with invalid params, 2/2', done => {
+    it('should not pass with invalid params, 2/2', (done) => {
       ECDH
         .fromPrivateKeyAsync(privateKeyBase64, 'invalidEncoding')
         .then(() => {
           throw new Error();
         })
-        .catch(err => {
+        .catch((err) => {
           expect(err).to.be.an('error');
           done();
-        })
+        });
     });
   });
 });

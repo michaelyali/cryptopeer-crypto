@@ -1,11 +1,13 @@
 {
   "name": "cryptopeer-crypto",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Crypto module for CryptoPeer",
   "main": "index.js",
   "private": false,
   "scripts": {
-    "test": "mocha test"
+    "lint": "node_modules/.bin/eslint . || exit 0",
+    "test": "npm run lint && node_modules/.bin/mocha test",
+    "postinstall": "npm test"
   },
   "author": "Michael Yali <yali.mykhailo@gmail.com>",
   "keywords": [
@@ -25,10 +27,13 @@
   "license": "MIT",
   "dependencies": {
     "node-rsa": "^0.4.2",
-    "sodium": "^1.2.3"
+    "sodium": "^2.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0",
     "mocha": "^3.1.2"
   }
 }
