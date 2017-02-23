@@ -1,13 +1,12 @@
 {
   "name": "cryptopeer-crypto",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Crypto module for CryptoPeer",
   "main": "index.js",
   "private": false,
   "scripts": {
     "lint": "node_modules/.bin/eslint . || exit 0",
-    "test": "npm run lint && mocha test",
-    "postinstall": "npm test"
+    "test": "npm run lint && mocha test"
   },
   "author": "Michael Yali <yali.mykhailo@gmail.com>",
   "keywords": [
